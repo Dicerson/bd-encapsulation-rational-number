@@ -25,8 +25,7 @@ public class RationalNumberTest {
     public void toString_onUpdatedRational_printsUpdatedValue() {
         //GIVEN
         RationalNumber zero = new RationalNumber(0, 1);
-        zero.numerator = 1;
-        zero.denominator = 1;
+        zero.update(1, 1);
         String oneString = "1/1";
 
         //WHEN
@@ -42,8 +41,8 @@ public class RationalNumberTest {
         RationalNumber half = new RationalNumber(2, 4);
 
         //THEN
-        assertEquals(1, half.numerator, "Expected 2/4 to reduce to 1/2");
-        assertEquals(2, half.denominator, "Expected 2/4 to reduce to 1/2");
+        assertEquals(1, half.getNumerator(), "Expected 2/4 to reduce to 1/2");
+        assertEquals(2, half.getDenominator(), "Expected 2/4 to reduce to 1/2");
     }
 
     @Test
@@ -101,7 +100,7 @@ public class RationalNumberTest {
         RationalNumber half = new RationalNumber(1, 2);
 
         //WHEN & THEN
-        Assertions.assertThrows(IllegalArgumentException.class, () -> half.denominator = 0, "You should not "
+        Assertions.assertThrows(IllegalArgumentException.class, () -> half.update(half.getNumerator(), 0), "You should not "
             + "be able to edit an existing RationalNumber and make it invalid with a 0 value denominator.");
     }
 
@@ -123,13 +122,24 @@ public class RationalNumberTest {
         //GIVEN
         RationalNumber half = new RationalNumber(1, 2);
         RationalNumber half2 = new RationalNumber(1, 2);
-        half2.numerator = 2;
-        half2.denominator = 4;
+        half2.update(2, 4);
 
         //WHEN
         boolean equal = half.equals(half2);
 
         //THEN
         assertTrue(equal, "1/2 and 2/4 should be equal.");
+    }
+
+    @Test
+    public void copy_withValidRationalNumber_createsValidRationalNumber() {
+        //GIVEN
+        RationalNumber valid = new RationalNumber(1, 2);
+
+        //WHEN
+        RationalNumber copy = new RationalNumber(valid);
+
+        //THEN
+        assertTrue(copy.equals(valid), "Copy of a valid rational number should result in an identical rational number.");
     }
 }

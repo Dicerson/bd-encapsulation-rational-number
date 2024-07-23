@@ -6,8 +6,8 @@ package com.amazon.ata.encapsulation;
  */
 public class RationalNumber {
 
-    public int numerator;
-    public int denominator;
+    private int numerator;
+    private int denominator;
 
     /**
      * Constructs a new rational number representing 0. Numerator = 0, Denominator = 1.
@@ -17,6 +17,23 @@ public class RationalNumber {
         this.denominator = 1;
     }
 
+    public int getNumerator(){
+        return numerator;
+    }
+
+    public int getDenominator() {
+        return denominator;
+    }
+
+    public void update(int numerator, int denominator) throws IllegalArgumentException{
+        if (denominator == 0) throw new IllegalArgumentException("Denominator cannot be 0.");
+        else {
+            this.numerator = numerator;
+            this.denominator = denominator;
+            reduce();
+        }
+    }
+
     /**
      * Constructs a new rational number with Numerator = numerator, Denominator = denominator.
      *
@@ -24,15 +41,14 @@ public class RationalNumber {
      * @param denominator the rational number's denominator (the one on the bottom)
      */
     public RationalNumber(int numerator, int denominator) {
-        if (denominator == 0) {
-            throw new IllegalArgumentException("Denominator cannot be 0.");
-        }
-        this.numerator = numerator;
-        this.denominator = denominator;
-
-        reduce();
+        this.update(numerator, denominator);
     }
 
+    public RationalNumber (RationalNumber original) {
+        int newNum = original.getNumerator();
+        int newDen = original.getDenominator();;
+        this.update(newNum, newDen);
+    }
     /**
      * Calculates the rational number as a decimal value.
      *
